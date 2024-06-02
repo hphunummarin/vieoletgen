@@ -1,0 +1,33 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main  # หรือสาขาที่คุณต้องการ deploy จาก
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build the project
+      run: npm run build
+
+    - name: Deploy
+      run: |
+        # ใส่สคริปต์การ deploy ของคุณที่นี่
+        echo "Deploying your project..."
+        # ตัวอย่างการ deploy ด้วย Firebase
+        npm install -g firebase-tools
+        firebase deploy --token "$FIREBASE_TOKEN"
